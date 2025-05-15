@@ -1,0 +1,17 @@
+{
+  "name": "mqwxz-website",
+  "version": "1.0.0",
+  "description": "для mqwxz",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "lite-server",
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "author": "MQWXZ",
+  "license": "MIT",
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "typescript": "^5.0.4"
+  }
+} 
