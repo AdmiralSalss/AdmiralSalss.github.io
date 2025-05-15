@@ -1,19 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Orbitron:wght@400;700&family=Quicksand:wght@300;500;700&display=swap');
 
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #8e44ad;
-    --accent-color: #00f;
+    --primary-color: #00f7ff;
+    --secondary-color: #c961ff;
+    --accent-color: #0048ff;
+    --glow-color: #ff00c3;
     --text-color: #fff;
     --bg-color: #000;
-    --card-bg: rgba(0, 0, 0, 0.7);
-    --glow-color: rgba(52, 152, 219, 0.8);
+    --card-bg: rgba(6, 1, 27, 0.8);
+    --neon-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffee;
+    --purple-glow: 0 0 10px #c961ff, 0 0 20px #c961ff, 0 0 30px #ba00ff;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    transform: scale(0.67);
+    transform-origin: 0 0;
+    width: 149.25%; 
+    height: 149.25%;
 }
 
 body {
@@ -23,6 +32,11 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: var(--bg-color);
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(0, 119, 255, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(204, 0, 255, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 60%, rgba(0, 255, 224, 0.2) 0%, transparent 50%);
+    background-attachment: fixed;
 }
 
 .video-container {
@@ -32,14 +46,14 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    opacity: 0.7;
+    opacity: 0.75;
 }
 
 #background-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: contrast(1.1) saturate(1.2);
+    filter: contrast(1.2) saturate(1.4) hue-rotate(-10deg);
 }
 
 .content {
@@ -58,9 +72,58 @@ header {
     justify-content: center;
     flex-direction: column;
     margin-top: 2rem;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+    animation: float 6s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent, 
+        transparent, 
+        transparent, 
+        var(--primary-color)
+    );
+    animation: rotate 4s linear infinite;
+    z-index: -1;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .logo-container {
@@ -68,13 +131,70 @@ header {
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid var(--text-color);
+    border: 3px solid transparent;
+    background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
+                linear-gradient(to right, var(--primary-color), var(--secondary-color)) border-box;
     box-shadow: 
         0 0 20px rgba(255, 255, 255, 0.7),
         0 0 30px var(--primary-color),
         0 0 40px var(--secondary-color);
     margin-bottom: 1rem;
-    animation: pulse 2s infinite alternate;
+    animation: pulse 2s infinite alternate, rotate-shadow 6s linear infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes rotate-shadow {
+    0% {
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.7),
+            0 0 30px var(--primary-color),
+            0 0 40px var(--secondary-color);
+    }
+    33% {
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.7),
+            0 0 40px var(--secondary-color),
+            0 0 30px var(--accent-color);
+    }
+    66% {
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.7),
+            0 0 30px var(--accent-color),
+            0 0 40px var(--primary-color);
+    }
+    100% {
+        box-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.7),
+            0 0 30px var(--primary-color),
+            0 0 40px var(--secondary-color);
+    }
+}
+
+.logo-container::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: conic-gradient(
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color),
+        var(--glow-color),
+        var(--primary-color)
+    );
+    filter: blur(20px);
+    z-index: -1;
+    animation: spin 10s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulse {
@@ -95,6 +215,17 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    animation: logo-zoom 8s infinite alternate;
+    filter: contrast(1.1) brightness(1.1);
+}
+
+@keyframes logo-zoom {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.08);
+    }
 }
 
 .title {
@@ -104,12 +235,42 @@ header {
     text-transform: uppercase;
     letter-spacing: 0.5rem;
     margin-top: 1rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-    animation: glow 2s infinite alternate;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(120deg, var(--primary-color), var(--glow-color), var(--secondary-color));
+    background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite, glow 2s infinite alternate;
+    text-shadow: 0 0 10px rgba(var(--primary-color), 0.7);
+    position: relative;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.title::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0.7;
+    animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        opacity: 0.7;
+        filter: blur(8px);
+    }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+        opacity: 0.3;
+        filter: blur(12px);
+    }
 }
 
 main {
@@ -128,6 +289,46 @@ main {
     box-shadow: 0 0 25px rgba(0, 0, 255, 0.5);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: card-float 5s ease infinite;
+}
+
+@keyframes card-float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(0.5deg);
+    }
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(var(--primary-color), 0.1),
+        rgba(var(--primary-color), 0.3),
+        rgba(var(--primary-color), 0.1),
+        transparent
+    );
+    transform: rotate(30deg);
+    animation: shine-effect 5s infinite linear;
+}
+
+@keyframes shine-effect {
+    from {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    to {
+        transform: rotate(30deg) translateX(100%);
+    }
 }
 
 .glowing-text {
@@ -138,6 +339,29 @@ main {
         0 0 10px var(--primary-color),
         0 0 20px var(--secondary-color);
     font-family: 'Orbitron', sans-serif;
+    animation: text-pulse 2s infinite alternate;
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes text-pulse {
+    0% {
+        text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+    }
+    100% {
+        text-shadow: 0 0 15px var(--primary-color), 0 0 25px var(--primary-color), 0 0 35px var(--primary-color);
+    }
+}
+
+.glowing-text::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    color: transparent;
+    text-shadow: var(--neon-shadow);
+    filter: blur(8px);
 }
 
 .subtitle {
@@ -147,6 +371,20 @@ main {
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: color-rotate 6s infinite linear;
+}
+
+@keyframes color-rotate {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
 }
 
 .description {
@@ -155,6 +393,19 @@ main {
     color: rgba(255, 255, 255, 0.8);
     font-weight: 300;
     line-height: 1.6;
+    font-family: 'Quicksand', sans-serif;
+    position: relative;
+    z-index: 1;
+    animation: fade-pulse 3s infinite alternate;
+}
+
+@keyframes fade-pulse {
+    0% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .social-links {
@@ -168,8 +419,7 @@ main {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.9rem 1.8rem;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    padding: 1rem 2rem;
     color: white;
     text-decoration: none;
     border-radius: 30px;
@@ -180,11 +430,53 @@ main {
     overflow: hidden;
     z-index: 1;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    animation: button-glow 3s infinite alternate;
+}
+
+@keyframes button-glow {
+    0% {
+        box-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color);
+    }
+    100% {
+        box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+    }
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn i {
-    margin-right: 8px;
-    font-size: 1.1rem;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    animation: icon-pulse 2s infinite alternate;
+}
+
+@keyframes icon-pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.2);
+    }
 }
 
 .btn:hover {
@@ -192,10 +484,25 @@ main {
     box-shadow: 
         0 10px 20px rgba(0, 0, 0, 0.4),
         0 0 30px rgba(52, 152, 219, 0.6);
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
 }
 
 .lolz-btn {
     background: linear-gradient(45deg, #e74c3c, #e67e22);
+    animation: neon-orange 3s infinite alternate;
+}
+
+@keyframes neon-orange {
+    0% {
+        box-shadow: 0 0 5px #e74c3c, 0 0 10px #e74c3c;
+    }
+    100% {
+        box-shadow: 0 0 10px #e74c3c, 0 0 20px #e74c3c, 0 0 30px #e74c3c;
+    }
+}
+
+.lolz-btn:hover {
+    background: linear-gradient(45deg, #ff5e3a, #ff9500);
 }
 
 footer {
@@ -205,6 +512,40 @@ footer {
     color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(5px);
     border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: footer-glow 3s infinite alternate;
+}
+
+@keyframes footer-glow {
+    0% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    100% {
+        box-shadow: 0 0 15px var(--primary-color);
+    }
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--secondary-color), var(--primary-color));
+    animation: slide 4s linear infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes slide {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
 }
 
 #background-music {
@@ -212,6 +553,13 @@ footer {
     bottom: 20px;
     right: 20px;
     z-index: 100;
+    filter: drop-shadow(0 0 10px var(--primary-color));
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+#background-music:hover {
+    opacity: 1;
 }
 
 @keyframes glow {
